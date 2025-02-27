@@ -58,7 +58,7 @@ int	arena_add(t_arena **arena, size_t size)
 		return (0);
 	if (size < 4096)
 		size = 4096;
-	else if (size % 4096)
+	else if (size % 4096) //Cria um tamanho multiplo de 4096 - 4KB
 		size = ((size / 4096) + 1) * 4096;
 	new_arena = arena_create(size);
 	if (!new_arena)
@@ -83,9 +83,10 @@ void	*arena_alloc(size_t memb_size, size_t n_memb, t_arena **arena)
 	size = memb_size * n_memb;
 	//Verificação de overflow
 	if (__builtin_mul_overflow(memb_size, n_memb, &size))
-        return NULL;
+		return (NULL);
 	//Obtem o alinhamento com base no tamanho do tipo de dado
 	alignement = get_type_alignment(memb_size);
+	//Calcular o alinhamento dos tipos na memoria
 	aligned_offset = ((*arena)->offset + (alignement - 1)) & ~(alignement - 1);
 	//Verifica se o offset alinhado mais o tamanho do tipo de dado é maior que o tamanho do buffer
 	if (aligned_offset + size > (*arena)->size)
