@@ -13,7 +13,7 @@
 #ifndef ARENA_H
 # define ARENA_H
 
-# include "libft.h"
+# include "libft/libft.h"
 
 typedef struct s_arena
 {
