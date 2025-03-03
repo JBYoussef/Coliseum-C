@@ -49,13 +49,13 @@ bool	insert_block_before_current(t_free *current, t_free *prev, t_arena *arena, 
 	return (1);
 }
 
-bool	validate_and_innit_vars(void **addr, t_uch8 **addr_start, size_t addr_size, t_arena *arena)
+bool	validate_and_innit_vars(void **addr, t_uch8 **addr_start, t_arena *arena)
 {
 	if (!addr || !*addr || !arena || !arena->buffer)
 		return (0);
 	// Converte o endereço para o tipo correto
-	addr_start = (t_uch8 *)*addr;
-	if (addr_start < arena->buffer || addr_start >= arena->buffer + arena->size)
+	*addr_start = (t_uch8 *)*addr;
+	if (*addr_start < arena->buffer || *addr_start >= arena->buffer + arena->size)
 		return (0);
 	*addr = NULL;
 	return (1);
@@ -68,7 +68,7 @@ bool	free_ptr_in_arena(void **addr, size_t addr_size, t_arena *arena)
 	t_free		*new_block;
 	t_free		*prev;
 
-	if (!validate_and_innit_vars(addr, &addr_start, addr_size, arena))
+	if (!validate_and_innit_vars(addr, &addr_start, arena))
 		return (0);
 	// Se a lista de blocos livres estiver vazia, cria um novo nó
 	if (!arena->free_blocks)

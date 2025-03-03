@@ -39,3 +39,18 @@ bool	address_on_current_block(t_uch8 *addr_start, size_t addr_size, t_free *bloc
 	is_within_end = addr_start + addr_size <= block->addr + block->addr_size;
 	return (is_within_start && is_within_end);
 }
+
+void	destroy_free_list(t_free **blocks)
+{
+	t_free	*current;
+
+	if (!blocks || !*blocks)
+		return ;
+	current = *blocks;
+	while (current)
+	{
+		*blocks = current->next;
+		free(current);
+		current = *blocks;
+	}
+}

@@ -18,11 +18,12 @@ void	destroy_arena(t_arena **arena)
 		return ;
 	if ((*arena)->buffer)
 		free((*arena)->buffer);
+	destroy_free_list(&(*arena)->free_blocks);
 	free(*arena);
 	*arena = NULL;
 }
 
-void	destroy_arena_list(t_arena **arena)
+void	destroy_all_arenas(t_arena **arena)
 {
 	t_arena	*next;
 
@@ -50,7 +51,7 @@ size_t	get_type_alignment(size_t size)
 		return (1);
 }
 
-int	arena_add(t_arena **arena, size_t size)
+int	add_new_arena(t_arena **arena, size_t size)
 {
 	t_arena	*new_arena;
 
@@ -71,14 +72,14 @@ int	arena_add(t_arena **arena, size_t size)
 	return (1);
 }
 
-void	*arena_alloc(size_t memb_size, size_t n_memb, t_arena *arena)
+void	*arena_alloc(size_t memb_size, size_t n_memb, t_arena **arena)
 {
 	void		*ptr;
 	size_t		alignement;
 	uintptr_t	aligned_offset;
 	size_t		size;
 
-	if (!arena || !arena->buffer)
+	if (!arena || !*arena || !(*arena)->buffer)
 		return (NULL);
 	size = memb_size * n_memb;
 	//Verificação de overflow
@@ -87,19 +88,20 @@ void	*arena_alloc(size_t memb_size, size_t n_memb, t_arena *arena)
 	//Obtem o alinhamento com base no tamanho do tipo de dado
 	alignement = get_type_alignment(memb_size);
 	//Calcular o alinhamento dos tipos na memoria
-	aligned_offset = (arena->offset + (alignement - 1)) & ~(alignement - 1);
+	aligned_offset = ((*arena)->offset + (alignement - 1)) & ~(alignement - 1);
 	//Verifica se o offset alinhado mais o tamanho do tipo de dado é maior que o tamanho do buffer
-	if (aligned_offset + size > arena->size)
+	if (aligned_offset + size > (*arena)->size)
 	{
-		if (!arena_add(&arena, size))
+		if (!add_new_arena(arena, size))
 			return (NULL);
 		return (arena_alloc(memb_size, n_memb, arena));
 	}
 	//Atribui o ponteiro ao endereço do buffer mais o offset alinhado
-	ptr = arena->buffer + aligned_offset;
+	ptr = (*arena)->buffer + aligned_offset;
 	//Actualiza o offset do buffer
-	lock_ptr_in_arena(&ptr, (t_uch8 *)ptr - (arena->buffer + arena->offset), arena);
-	arena->offset = aligned_offset + size;
+	lock_ptr_in_arena(&ptr, (t_uch8 *)ptr - ((*arena)->buffer + (*arena)->offset), *arena);
+	ptr = (*arena)->buffer + aligned_offset;
+	(*arena)->offset = aligned_offset + size;
 	return (ptr);
 }
 

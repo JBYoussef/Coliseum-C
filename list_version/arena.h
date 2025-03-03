@@ -42,14 +42,18 @@ bool	address_on_current_block(t_uch8 *addr_start, size_t addr_size, t_free *bloc
 
 bool	lock_ptr_in_arena(void **addr, size_t addr_size, t_arena *arena);
 
+bool	free_ptr_in_arena(void **addr, size_t addr_size, t_arena *arena);
+
+void	destroy_free_list(t_free **blocks);
+
 void	arena_reset(t_arena *arena, int clear_memory);
 
 void	arena_reset_all(t_arena *arena, int clear_memory);
 
-void	*arena_alloc(size_t memb_size, size_t n_memb, t_arena *arena);
+void	*arena_alloc(size_t memb_size, size_t n_memb, t_arena **arena);
 
 void	destroy_arena(t_arena **arena);
 
-void	destroy_arena_list(t_arena **arena);
+void	destroy_all_arenas(t_arena **arena);
 
 #endif
