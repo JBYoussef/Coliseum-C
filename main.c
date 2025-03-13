@@ -18,7 +18,7 @@ char	*arena_strdup(const char *s, t_arena **arena)
 	char	*dest;
 
 	source_sz = ft_strlen(s);
-	dest = (char *)arena_alloc(1, source_sz, arena);
+	dest = (char *)arena_alloc(1, source_sz, arena, false);
 	if (dest == NULL)
 	{
 		return (NULL);
@@ -38,7 +38,7 @@ int	main(void)
 		ft_fprintf(2, "error\n");
 		return (1);
 	}
-	for (int i = 0; i < 10000000; i++)
+	for (int i = 0; i < 100000; i++)
 	{
 		str = arena_strdup("Olá Mundo\n", &arena);
 		if (i % 100 == 0)

@@ -29,17 +29,6 @@ t_free	*create_free_node(t_uch8 *addr, size_t addr_size)
 	return (free_block);
 }
 
-// Verifica se o bloco de memória está completamente contido no bloco livre
-bool	address_on_current_block(t_uch8 *addr_start, size_t addr_size, t_free *block)
-{
-	bool	is_within_start;
-	bool	is_within_end;
-
-	is_within_start = addr_start >= block->addr;
-	is_within_end = addr_start + addr_size <= block->addr + block->addr_size;
-	return (is_within_start && is_within_end);
-}
-
 void	destroy_free_list(t_free **blocks)
 {
 	t_free	*current;

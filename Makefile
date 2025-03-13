@@ -1,7 +1,7 @@
 NAME = arena
 CC = cc
 C_FLAGS = -Wall -Wextra -Werror
-SRCS = main.c list_version/arena.c list_version/free.c list_version/free_utils.c list_version/lock.c
+SRCS = main.c list_version/arena.c list_version/free.c list_version/free_utils.c list_version/alloc.c
 
 NAME_OBJS = $(SRCS:.c=.o)
 LIBFT = libft.a
