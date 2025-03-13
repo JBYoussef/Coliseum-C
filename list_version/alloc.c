@@ -60,7 +60,7 @@ void	*decrease_block_size(t_free *current, size_t alloc_size, t_arena *arena, t_
 	return ((void *)ptr);
 }
 
-static size_t	get_aligned_offset(t_uch8 *buffer_ptr, t_uch8 *buffer_start)
+size_t	get_aligned_offset(t_uch8 *buffer_ptr, t_uch8 *buffer_start)
 {
 	 size_t	aligned_offset;
 	 size_t	arena_offset;
@@ -71,7 +71,7 @@ static size_t	get_aligned_offset(t_uch8 *buffer_ptr, t_uch8 *buffer_start)
 
 	// Calcula o deslocamento de buffer_ptr a partir do buffer alinhado
 	arena_offset = (size_t)buffer_ptr - start_align;
-
+	
 	// Ajusta o deslocamento para o próximo múltiplo de ALIGNMENT
 	aligned_offset = (arena_offset + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1);
 
@@ -93,7 +93,7 @@ void	*free_blocks_without_enough_space(t_arena **arena, size_t alloc_size)
 		if (ptr)
 			return (ptr);
 	}
-	if (!add_new_arena(arena, alloc_size))
+	else if (!add_new_arena(arena, alloc_size))
 		return (NULL);
 	current = (*arena)->free_blocks;
 	aligned_offset = get_aligned_offset(current->addr, (*arena)->buffer);

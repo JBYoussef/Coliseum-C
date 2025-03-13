@@ -76,6 +76,7 @@ bool	free_ptr_in_arena(void **addr, size_t addr_size, t_arena *arena)
 		arena->free_blocks = create_free_node(addr_start, addr_size);
 		return (arena->free_blocks != NULL);
 	}
+	addr_size += get_aligned_offset(addr_start, arena->buffer);
 	current = arena->free_blocks;
 	prev = NULL;
 	// Percorre a lista de blocos livres

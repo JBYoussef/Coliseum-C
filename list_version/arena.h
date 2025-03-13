@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include <stdbool.h>
+# include <stdio.h>
 
 # define ALIGNMENT 16
 
@@ -41,6 +42,8 @@ t_arena	*arena_create(size_t buffer_size);
 t_free	*create_free_node(t_uch8 *addr, size_t addr_size);
 
 t_uch8	*get_ptr_in_arena(size_t desired_size, t_arena *arena);
+
+size_t	get_aligned_offset(t_uch8 *buffer_ptr, t_uch8 *buffer_start);
 
 bool	free_ptr_in_arena(void **addr, size_t addr_size, t_arena *arena);
 
