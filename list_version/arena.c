@@ -81,6 +81,7 @@ void	arena_reset_all(t_arena *arena, int clear_memory)
 t_arena	*arena_create(size_t buffer_size)
 {
 	t_arena *arena;
+	static int x = 0;
 
 	arena = ft_calloc(1, sizeof(t_arena));
 	if (!arena)
@@ -93,7 +94,7 @@ t_arena	*arena_create(size_t buffer_size)
 		buffer_size = 4096;
 	else if (buffer_size % 4096) //Cria um tamanho multiplo de 4096 - 4KB
 		buffer_size = ((buffer_size / 4096) + 1) * 4096;
-	arena->buffer = ft_calloc(buffer_size + ALIGNMENT - 1, sizeof(char));
+	arena->buffer = ft_calloc(buffer_size, sizeof(char));
 	if (!arena->buffer)
 	{
 		ft_fprintf(2, "Error: Arena Criation Failed\n");
@@ -108,5 +109,6 @@ t_arena	*arena_create(size_t buffer_size)
 	}
 	arena->prev = NULL;
 	arena->next = NULL;
+	printf("number arenas%d\n", x++);
 	return (arena);
 }

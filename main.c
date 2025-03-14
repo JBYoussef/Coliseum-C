@@ -6,7 +6,7 @@
 /*   By: jbofengo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:37:26 by jbofengo          #+#    #+#             */
-/*   Updated: 2025/03/13 15:19:20 by jbofengo         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:36:24 by jbofengo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(void)
 		ft_fprintf(2, "error\n");
 		return (1);
 	}
-	for (int i = 0; i < 100000; i++)
+	for (int i = 0; i < 1000000; i++)
 	{
 		str = arena_strdup("Olá Mundo\n", &arena);
 		if (i % 100 == 0)

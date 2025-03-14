@@ -44,7 +44,7 @@ void	*decrease_block_size(t_free *current, size_t alloc_size, t_arena *arena, t_
 	//Get address of the desired pointer
 	ptr = current->addr;
 	
-	//Recalculate the block size and pointer position=
+	//Recalculate the block size and pointer position
 	current->addr += alloc_size;
 	current->addr_size -= alloc_size;
 	
@@ -62,9 +62,9 @@ void	*decrease_block_size(t_free *current, size_t alloc_size, t_arena *arena, t_
 
 size_t	get_aligned_offset(t_uch8 *buffer_ptr, t_uch8 *buffer_start)
 {
-	 size_t	aligned_offset;
-	 size_t	arena_offset;
-	 size_t	start_align;
+	size_t	aligned_offset;
+	size_t	arena_offset;
+	size_t	start_align;
 
 	// Alinha o início do buffer para o próximo múltiplo de ALIGNMENT
 	start_align = ((size_t)buffer_start + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1);
@@ -76,7 +76,7 @@ size_t	get_aligned_offset(t_uch8 *buffer_ptr, t_uch8 *buffer_start)
 	aligned_offset = (arena_offset + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1);
 
 	//retornar o offset alinhado
-	return (aligned_offset);
+	return (aligned_offset - arena_offset);
 }
 
 //Função para o caso de não haver blocos livres ou se nenhum deles tiver espaço suficiente
