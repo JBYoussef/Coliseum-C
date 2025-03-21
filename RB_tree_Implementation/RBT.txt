@@ -1,0 +1,76 @@
+Casos de Violação e Correção
+A violação sempre ocorre quando o nó inserido tem um pai vermelho. Dependendo da cor do tio (o outro filho do avô), há três casos principais:
+
+Caso 1: O tio é vermelho (Recoloração)
+O pai e o tio são vermelhos.
+Solução: Recolorir pai e tio para preto e o avô para vermelho.
+Agora o problema pode "subir" para o avô, que pode ter um pai vermelho, exigindo mais ajustes.
+Se a raiz for vermelha, ela é forçada a ficar preta no final.
+
+Caso 2: O tio é preto e o nó está em uma rotação dupla (Rotação dupla)
+O nó inserido está em uma posição que exige duas rotações para corrigir a árvore.
+Exemplo: Se o nó está na subárvore direita do filho esquerdo do avô (ou vice-versa).
+Solução:
+Rotação simples no pai para alinhar a estrutura.
+O caso vira o Caso 3, resolvido com uma rotação simples no avô.
+
+
+Caso 3: O tio é preto e o nó está em linha reta (Rotação simples)
+O nó e o pai estão na mesma direção em relação ao avô.
+Exemplo: Se o nó está na subárvore esquerda do filho esquerdo do avô (ou na direita do filho direito).
+Solução:
+Rotação simples no avô.
+Troca de cores entre avô e pai.
+
+
+Resumo das Soluções
+Caso	Situação	Solução
+1	Tio vermelho	Recolorir pai, tio e avô
+2	Tio preto + rotação dupla	Rotação no pai → Vira Caso 3
+3	Tio preto + rotação simples	Rotação no avô + troca de cores
+O algoritmo de inserção pode propagar ajustes até a raiz, mas sempre mantém a altura da árvore O(log n).
+
+Se precisar de mais detalhes ou visualizações, posso explicar mais!
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+REMOÇÃO
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+A remoção em uma Red-Black Tree (RBT) é mais complexa do que a inserção porque pode violar as regras da árvore e exigir ajustes para restaurar suas propriedades.
+
+Passos para Remover um Nó na Red-Black Tree
+Remoção normal
+
+Se o nó a ser removido tem no máximo um filho, apenas substituímos pelo filho (ou NULL se não tiver nenhum).
+Se o nó tem dois filhos, substituímos pelo sucessor in-order (o menor nó da subárvore direita) e removemos esse sucessor.
+Correção para manter as regras
+
+Se o nó removido ou substituído for vermelho, a árvore continua válida.
+Se for preto, pode ocorrer um problema de desequilíbrio de pretos na árvore, exigindo ajustes.
+Casos de Correção após Remoção
+A correção ocorre quando removemos ou substituímos um nó preto, pois isso pode violar a Regra da Altura Preta.
+
+Caso 1: O nó substituto (ou o "buraco") é vermelho
+Basta pintá-lo de preto, restaurando a altura preta.
+Caso 2: O nó substituto (ou "buraco") é preto e tem um irmão preto com filhos pretos (Caso Preto-Preto)
+O irmão também tem ambos os filhos pretos.
+Solução: Recolorir o irmão para vermelho e subir o problema para o pai.
+Se o pai for vermelho, ele pode ser pintado de preto e encerrar o ajuste.
+Se o pai for preto, ele vira um "buraco negro" e pode precisar de mais correções subindo na árvore.
+Caso 3: O nó substituto (ou "buraco") é preto e tem um irmão preto com um filho vermelho distante
+O irmão tem um filho vermelho na direção oposta ao buraco.
+Solução: Rotação simples no irmão para converter para o Caso 4.
+Caso 4: O nó substituto (ou "buraco") é preto e tem um irmão preto com um filho vermelho próximo
+O irmão tem um filho vermelho na direção do buraco.
+Solução:
+Rotação no pai na direção do buraco.
+Troca de cores entre o pai e o irmão.
+O filho vermelho do irmão vira preto.
+Resumo das Soluções
+Caso	Situação	Solução
+1	Nó substituto vermelho	Pintar de preto
+2	Irmão preto sem filhos vermelhos	Pintar o irmão de vermelho e propagar o problema
+3	Irmão preto com um filho vermelho distante	Rotação no irmão → Vira Caso 4
+4	Irmão preto com um filho vermelho próximo	Rotação no pai + troca de cores
+A correção pode subir na árvore até restaurar todas as regras. O tempo de remoção é O(log n).

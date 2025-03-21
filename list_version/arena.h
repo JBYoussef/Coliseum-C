@@ -21,6 +21,24 @@
 
 typedef unsigned char t_uch8;
 
+/*
+typedef struct s_free
+{
+	t_uch8		*addr;
+	union
+	{
+		size_t	raw_value;
+		struct
+		{
+			size_t	addr_size : 62;
+			size_t	size_flag : 1;
+			size_t	addr_flag : 1;
+		};
+	};
+	struct s_free	*next;
+}	t_free;
+*/
+
 typedef struct s_free
 {
 	t_uch8		*addr;
@@ -35,6 +53,11 @@ typedef struct s_arena
 	t_free		*free_blocks;
 	struct s_arena	*prev;
 	struct s_arena	*next;
+}	t_arena;
+
+typedef struct s_arena
+{
+	t_arena
 }	t_arena;
 
 t_arena	*arena_create(size_t buffer_size);
